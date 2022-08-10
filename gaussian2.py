@@ -12,7 +12,6 @@ if src is None:
 cv2.imshow('src', src)
 
 for sigma in range(1, 6):
-    # sigma 값을 이용하여 가우시안 필터링
     dst = cv2.GaussianBlur(src, (0, 0), sigma)
 
     desc = 'sigma = {}'.format(sigma)
