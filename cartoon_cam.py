@@ -10,7 +10,7 @@ def cartoon_filter(img):
     img2 = cv2.resize(img, (w//2, h//2))
 
     blr = cv2.bilateralFilter(img2, -1, 20, 7)
-    edge = 255 - cv2.Canny(img2, 80, 120)
+    edge = 255 - cv2.Canny(img2, 50, 120)
     edge = cv2.cvtColor(edge, cv2.COLOR_GRAY2BGR)
 
     dst = cv2.bitwise_and(blr, edge)
@@ -18,7 +18,7 @@ def cartoon_filter(img):
 
     return dst
 
-
+ 
 def pencil_sketch(img):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     blr = cv2.GaussianBlur(gray, (0, 0), 3)
@@ -26,20 +26,13 @@ def pencil_sketch(img):
     return dst
 
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture('video1.mp4')
 
-if not cap.isOpened():
-    print('video open failed!')
-    sys.exit()
 
 cam_mode = 0
 
 while True:
     ret, frame = cap.read()
-
-    if not ret:
-        break
-
     if cam_mode == 1:
         frame = cartoon_filter(frame)
     elif cam_mode == 2:
@@ -47,7 +40,7 @@ while True:
         frame = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
 
     cv2.imshow('frame', frame)
-    key = cv2.waitKey(1)
+    key = cv2.waitKey(50)
 
     if key == 27:
         break
